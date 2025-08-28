@@ -2,6 +2,8 @@ package br.gov.sp.fatec.springlab420252.entity;
 
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -30,6 +32,7 @@ public class Usuario {
     private String senha;
 
     @OneToMany(mappedBy = "usuario", fetch = FetchType.LAZY)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Set<Anotacao> anotacoes;
 
     @ManyToMany(fetch = FetchType.EAGER)
