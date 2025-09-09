@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.gov.sp.fatec.springlab420252.entity.Trabalho;
-import br.gov.sp.fatec.springlab420252.entity.Usuario;
 import br.gov.sp.fatec.springlab420252.service.TrabalhoService;
 
 @RestController
