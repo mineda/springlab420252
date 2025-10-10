@@ -6,6 +6,8 @@ import java.util.Optional;
 import java.util.Set;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
@@ -22,13 +24,19 @@ public class UsuarioServiceImpl implements UsuarioService{
 
     private AutorizacaoRepository autRepo;
 
-    public UsuarioServiceImpl(UsuarioRepository usuarioRepo, AutorizacaoRepository autRepo) {
+    private PasswordEncoder encoder;
+
+    public UsuarioServiceImpl(UsuarioRepository usuarioRepo, 
+            AutorizacaoRepository autRepo,
+            PasswordEncoder encoder) {
         this.usuarioRepo = usuarioRepo;
         this.autRepo = autRepo;
+        this.encoder = encoder;
     }
 
     @Override
     @Transactional
+    @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
     public Usuario novo(Usuario usuario) {
         if(usuario == null ||
                 usuario.getNome() == null ||
@@ -43,6 +51,7 @@ public class UsuarioServiceImpl implements UsuarioService{
             autorizacoes.add(buscarAutorizacaoPorId(aut.getId()));
         }
         usuario.setAutorizacoes(autorizacoes);
+        usuario.setSenha(encoder.encode(usuario.getSenha()));
         return usuarioRepo.save(usuario);
     }
 
@@ -61,6 +70,7 @@ public class UsuarioServiceImpl implements UsuarioService{
     }
 
     @Override
+    @PreAuthorize("isAuthenticated()")
     public Usuario buscarPorId(Long id) {
         Optional<Usuario> usuarioOp = usuarioRepo.findById(id);
         if(usuarioOp.isEmpty()) {
