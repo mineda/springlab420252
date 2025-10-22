@@ -33,7 +33,7 @@ public class JwtUtils {
         }
         String usuarioJson = mapper.writeValueAsString(usuarioSemSenha);
         Date agora = new Date();
-        Long hora = 1000L * 60L * 60L; // Uma hora
+        Long hora = 1000L * 60L * 60L * 10; // 10 horas
 
         return Jwts.builder()
                 .claim("userDetails", usuarioJson)

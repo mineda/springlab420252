@@ -38,6 +38,6 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
         } catch (Throwable t) {
             HttpServletResponse servletResponse = (HttpServletResponse) response;
             servletResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED, t.getMessage());
-        }
+        } 
     }
 }
