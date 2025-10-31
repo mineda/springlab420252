@@ -37,7 +37,18 @@ create table tra_trabalho (
   tra_descricao varchar(200),
   tra_usr_id bigint not null,
   tra_nota int,
+  primary key (tra_id),
   foreign key (tra_usr_id) references usr_usuario (usr_id) on delete restrict on update cascade
+);
+
+create table sec_secao (
+  sec_id bigint generated always as identity,
+  sec_titulo varchar(100) not null,
+  sec_data_hora_criacao timestamp not null,
+  sec_conteudo varchar(300),
+  sec_tra_id bigint not null,
+  primary key (sec_id),
+  foreign key (sec_tra_id) references tra_trabalho (tra_id) on delete restrict on update cascade
 );
 
 insert into usr_usuario (usr_nome, usr_senha)
@@ -50,7 +61,10 @@ insert into ant_anotacao(ant_texto, ant_data_hora, ant_usr_id)
   values('Meu novo projeto', '2023-08-01 19:10', 1);
 insert into tra_trabalho (tra_titulo, tra_data_hora_entrega, tra_nota, tra_usr_id)
   values ('Teste 1', current_timestamp, 6, 1),
-         ('Teste 2', current_timestamp, null, 1);
+         ('Teste 2', '2023-08-03 20:30', null, 1);
+insert into sec_secao (sec_titulo, sec_data_hora_criacao, sec_conteudo, sec_tra_id)
+  values ('Capítulo 1', '2023-08-04 10:30', 'Meu nome é Post', 2),
+         ('Capítulo 2', '2023-08-04 11:16', 'Trabalho com software', 2);
 
 create user spring with password 'pass123';
 
