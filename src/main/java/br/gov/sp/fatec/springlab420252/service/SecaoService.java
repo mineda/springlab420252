@@ -11,5 +11,7 @@ public interface SecaoService {
     public List<Secao> todas();
 
     public List<Secao> buscarPorTituloSecaoETituloTrabalho(String tituloSecao, String tituloTrabalho);
+
+    public Secao buscarPorId(Long id);
     
 }

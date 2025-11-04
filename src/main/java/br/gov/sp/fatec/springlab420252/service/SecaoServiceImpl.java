@@ -49,5 +49,12 @@ public class SecaoServiceImpl implements SecaoService{
     public List<Secao> buscarPorTituloSecaoETituloTrabalho(String tituloSecao, String tituloTrabalho) {
         return repo.findByTituloContainsAndTrabalhoTituloContains(tituloSecao, tituloTrabalho);
     }
+
+    @Override
+    public Secao buscarPorId(Long id) {
+        return repo.findById(id).orElseThrow(() -> {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Seção não encontrada!");
+        });  
+    }
     
 }
