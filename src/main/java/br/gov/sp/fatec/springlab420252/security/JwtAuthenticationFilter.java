@@ -36,8 +36,9 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
             }
             chain.doFilter(request, response);
         } catch (Throwable t) {
-            HttpServletResponse servletResponse = (HttpServletResponse) response;
-            servletResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED, t.getMessage());
+            // Em caso de problemas, segue sem autenticaer
+            // A proteção do Spring Security é suficiente
+            chain.doFilter(request, response);
         } 
     }
 }
