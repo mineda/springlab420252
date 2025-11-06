@@ -47,5 +47,12 @@ public class AnotacaoServiceImpl implements AnotacaoService {
     public List<Anotacao> buscarPorNomeUsuarioETexto(String nomeUsuario, String texto) {
         return repo.findByUsuarioNomeAndTextoContains(nomeUsuario, texto);
     }
+
+    @Override
+    public Anotacao buscarPorId(Long id) {
+        return repo.findById(id).orElseThrow(() -> {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Anotação não encontrada!");
+        });
+    }
     
 }

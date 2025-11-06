@@ -99,8 +99,37 @@ create table rev_revisao (
   foreign key (rev_sec_id) references sec_secao (sec_id) on delete restrict on update cascade
 );
 
+
 insert into rev_revisao (rev_feedback, rev_data_hora, rev_data_hora_correcao, rev_sec_id)
   values ('Somente título', '2025-10-20 11:00', '2025-10-27 23:05', 1),
          ('E o resto?', current_timestamp, null, 2);
+
+create table chk_checklist (
+  chk_id bigint generated always as identity,
+  chk_descricao varchar(100) not null,
+  chk_data_hora_finalizacao timestamp,
+  chk_comentario_finalizacao varchar(100),
+  chk_ant_id bigint not null,
+  primary key (chk_id),
+  foreign key (chk_ant_id) references ant_anotacao (ant_id) on delete restrict on update cascade
+);
+
+insert into chk_checklist (chk_descricao, chk_data_hora_finalizacao, chk_comentario_finalizacao, chk_ant_id)
+  values ('Periféricos', '2023-08-13 11:20', 'Caro', 1),
+         ('Montagem', null, null, 1);
+
+create table fin_financeiro (
+  fin_id bigint generated always as identity,
+  fin_gasto varchar(150) not null,
+  fin_valor numeric(10,2) not null,
+  fin_desconto_porc int,
+  fin_chk_id bigint not null,
+  primary key (fin_id),
+  foreign key (fin_chk_id) references chk_checklist (chk_id) on delete restrict on update cascade
+);
+
+insert into fin_financeiro (fin_gasto, fin_valor, fin_desconto_porc, fin_chk_id)
+  values ('Motherboard', 999.9, null, 1),
+         ('Processador', 1500.0, 10, 1);
 
 grant update, delete, insert, select on all tables in schema public to spring;

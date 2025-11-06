@@ -11,4 +11,6 @@ public interface AnotacaoService {
     public List<Anotacao> todas();
     
     public List<Anotacao> buscarPorNomeUsuarioETexto(String nomeUsuario, String texto);
+
+    public Anotacao buscarPorId(Long id);
 }
