@@ -132,4 +132,32 @@ insert into fin_financeiro (fin_gasto, fin_valor, fin_desconto_porc, fin_chk_id)
   values ('Motherboard', 999.9, null, 1),
          ('Processador', 1500.0, 10, 1);
 
+create table pos_post (
+  pos_id bigint generated always as identity,
+  pos_conteudo varchar(256) not null,
+  pos_data_hora timestamp not null,
+  pos_usr_id bigint not null,
+  primary key (pos_id),
+  foreign key (pos_usr_id) references usr_usuario(usr_id)
+);
+
+insert into pos_post(pos_conteudo, pos_data_hora, pos_usr_id)
+  values ('Bom dia!', '2023-08-01 07:15', 1),
+         ('Boa noite!', '2025-08-01 19:10', 2);
+
+create table rea_reacao (
+  rea_id bigint generated always as identity,
+  rea_tipo varchar(10) not null,
+  rea_data_hora timestamp not null,
+  rea_contador int,
+  rea_pos_id bigint not null,
+  primary key (rea_id),
+  unique (rea_tipo, rea_pos_id),
+  foreign key (rea_pos_id) references pos_post(pos_id)
+);
+
+insert into rea_reacao (rea_tipo, rea_data_hora, rea_contador, rea_pos_id)
+  values ('LIKE', '2023-08-01 08:00', 5, 1),
+         ('LOVE', '2025-08-01 20:00', 2, 2);
+
 grant update, delete, insert, select on all tables in schema public to spring;
