@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,12 +13,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.annotation.JsonView;
+
 import br.gov.sp.fatec.springlab420252.entity.Post;
 import br.gov.sp.fatec.springlab420252.service.PostService;
 
 @RestController
 @CrossOrigin
 @RequestMapping(value = "/post")
+@Transactional
 public class PostController {
 
     private PostService service;
@@ -27,21 +31,25 @@ public class PostController {
     }
     
     @GetMapping
+    @JsonView(View.Post.class)
     public List<Post> todos() {
         return service.todos();
     }
 
     @GetMapping("/{id}")
+    @JsonView(View.Post.class)
     public Post buscarPorId(@PathVariable("id") Long id) {
         return service.buscarPorId(id);
     }
 
     @GetMapping("/usuario/{nome}")
+    @JsonView({View.Post.class})
     public List<Post> buscarPorNomeUsuario(@PathVariable("nome") String nomeUsuario) {
         return service.buscarPorNomeUsuario(nomeUsuario);
     }
 
     @PostMapping
+    @JsonView(View.Post.class)
     public ResponseEntity<Post> novo(@RequestBody Post post) {
         Post criado = service.novo(post);
         return ResponseEntity.created(URI.create("/post/" + criado.getId())).body(criado);

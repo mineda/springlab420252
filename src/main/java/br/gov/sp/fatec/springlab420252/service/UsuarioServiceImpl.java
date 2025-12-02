@@ -70,7 +70,6 @@ public class UsuarioServiceImpl implements UsuarioService{
     }
 
     @Override
-    @PreAuthorize("isAuthenticated()")
     public Usuario buscarPorId(Long id) {
         Optional<Usuario> usuarioOp = usuarioRepo.findById(id);
         if(usuarioOp.isEmpty()) {

@@ -2,6 +2,9 @@ package br.gov.sp.fatec.springlab420252.entity;
 
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonView;
+
+import br.gov.sp.fatec.springlab420252.controller.View;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -19,15 +22,19 @@ public class Reacao {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "rea_id")
+    @JsonView({View.Post.class})
     private Long id;
     
     @Column(name = "rea_tipo")
+    @JsonView({View.Post.class})
     private String tipo;
 
     @Column(name = "rea_data_hora")
+    @JsonView({View.Post.class})
     private LocalDateTime dataHora;
 
     @Column(name = "rea_contador")
+    @JsonView({View.Post.class})
     private Integer contador;
 
     @ManyToOne(fetch = FetchType.EAGER)

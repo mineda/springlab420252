@@ -4,7 +4,9 @@ import java.util.HashSet;
 import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonView;
 
+import br.gov.sp.fatec.springlab420252.controller.View;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -24,12 +26,15 @@ public class Usuario {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "usr_id")
+    @JsonView({View.Post.class})
     private Long id;
 
     @Column(name = "usr_nome")
+    @JsonView({View.Post.class})
     private String nome;
 
     @Column(name = "usr_senha")
+    @JsonView({View.Post.class})
     private String senha;
 
     @OneToMany(mappedBy = "usuario", fetch = FetchType.LAZY)
